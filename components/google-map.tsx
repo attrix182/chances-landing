@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from 'react';
 import styles from './google-map.module.css';
 import { ProfessionalCard } from './professional-card';
+import { GM_STYLES } from './map.styles';
 
 export const GM_ICON_PATH =
   'M 24 0 C 37.254833995939045 0 48 10.74516600406095 48 23.999999999999993 C 48 37.25483399593904 37.25483399593905 47.99999999999999 24.000000000000007 48 C 10.745166004060964 48.00000000000001 3.552713678800501e-15 37.25483399593905 0 24.000000000000007 C 0 10.745166004060957 10.745166004060957 0 24 0 Z';
@@ -60,7 +61,14 @@ export function GoogleMap({
   }, [centerProp, showCard]);
 
   useEffect(() => {
-    console.log('Professionals:', professionals);
+    if(!profession){
+      console.log('No profession provided');
+      setProfessional(null);
+      setSelectedIndex(null);
+      setSelectedProfession('');
+      setShowCardProp(false);
+      return;
+    }
     if (center && professionals.length > 0 && showCard && profession) {
       const { prof, index } = selectRandomProfessional();
       setProfessional(prof);
@@ -100,7 +108,6 @@ export function GoogleMap({
     if (!mapInstanceRef.current || !center) return;
 
     const { Marker } = await window.google.maps.importLibrary('marker');
-    const { InfoWindow } = await window.google.maps.importLibrary('maps');
 
     const coords = generateNearbyCoords(center, professionals.length || 5);
 
@@ -136,19 +143,10 @@ export function GoogleMap({
         drawRouteToProfessional(coord);
       }
 
-      const infoWindow = new InfoWindow({
-        content: `
-          <div style="font-size: 14px">
-            <strong>${prof.firstName} ${prof.lastName}</strong><br/>
-            Ranking: ${prof.ranking}⭐<br/>
-            ${prof.city}, ${prof.province}<br/>
-            ${prof.country}
-          </div>
-        `
+      marker.addListener('click', () => {
+        console.log('Marker clicked:', prof);
       });
-
-      marker.addListener('click', () => infoWindow.open({ anchor: marker, map: mapInstanceRef.current! }));
-      extraMarkersRef.current.push(marker);
+   
     });
   };
 
@@ -193,10 +191,13 @@ export function GoogleMap({
       zoom,
       mapId: 'CHANCES_MAP',
       disableDefaultUI: false,
-      zoomControl: true,
-      mapTypeControl: false,
+      fullscreenControl: false,
       streetViewControl: false,
-      fullscreenControl: true
+      mapTypeControl: false,
+      zoomControl: false,
+      clickableIcons: false,
+      cameraControl: false,
+      styles: GM_STYLES,
     });
     mapInstanceRef.current = map;
     isInitialized.current = true;

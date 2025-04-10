@@ -54,49 +54,47 @@ export function HeroSection() {
   // Memoize the callback to prevent recreating on every render
   const handleAddressSelected = useCallback(
     (address: string, location: { lat: number; lng: number }, profession: string) => {
-      if (location.lat !== mapCenter.lat && location.lng !== mapCenter.lng) {setMapCenter(location)};
-      setShowMarker(true); // Show marker only after an address is selected
-      if (profession) {
-        setShowCard(true);
-        setSelectedProfession(profession);
+      if (location.lat !== mapCenter.lat && location.lng !== mapCenter.lng) {
+        setMapCenter(location);
       }
+      setShowMarker(true); // Show marker only after an address is selected
+      setShowCard(true);
+      setSelectedProfession(profession);
     },
     []
   );
 
   return (
     <section className="py-12 md:py-24 lg:py-12 xl:py-12">
-    <div className="container md:px-6 max-w-full">
-      <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
-        {/* Texto + Formulario */}
-        <div className="flex flex-col items-center lg:items-start text-center lg:text-left justify-center h-full space-y-4">
-          <div className="space-y-1">
-            <h1 className="text-2xl font-bold tracking-tighter sm:text-2xl xl:text-4xl/none">
-              Si tenés un oficio, tenés una oportunidad
-            </h1>
-            <p className="max-w-[600px] text-muted-foreground md:text-xl">
-              Encuentra un profesional con el oficio que necesitas.
-            </p>
+      <div className="container md:px-6 max-w-full">
+        <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
+          {/* Texto + Formulario */}
+          <div className="flex flex-col items-center lg:items-start text-center lg:text-left justify-center h-full space-y-4">
+            <div className="space-y-1">
+              <h1 className="text-2xl font-bold tracking-tighter sm:text-2xl xl:text-4xl/none">
+                Si tenés un oficio, tenés una oportunidad
+              </h1>
+              <p className="max-w-[600px] text-muted-foreground md:text-xl">
+                Encontra un profesional con el oficio que necesitas.
+              </p>
+            </div>
+            <div className="w-full max-w-md">
+              <SearchForm onAddressSelected={handleAddressSelected} />
+            </div>
           </div>
-          <div className="w-full max-w-md">
-            <SearchForm onAddressSelected={handleAddressSelected} />
+
+          {/* Mapa */}
+          <div className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[550px] xl:h-[600px] rounded-xl overflow-hidden border shadow-xl">
+            <GoogleMap
+              center={mapCenter}
+              showMarker={true}
+              professionals={professionals}
+              profession={selectedProfession}
+              showCard={showCard}
+            />
           </div>
-        </div>
-  
-        {/* Mapa */}
-        <div className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[550px] xl:h-[600px] rounded-xl overflow-hidden border shadow-xl">
-          <GoogleMap
-            center={mapCenter}
-            showMarker={true}
-            professionals={professionals}
-            profession={selectedProfession}
-            showCard={showCard}
-          />
         </div>
       </div>
-    </div>
-  </section>
-  
-  
+    </section>
   );
 }

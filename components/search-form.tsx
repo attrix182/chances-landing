@@ -14,7 +14,7 @@ interface Profession {
 }
 
 interface SearchFormProps {
-  onAddressSelected: (address: string, location: { lat: number; lng: number }, profession: string) => void;
+  onAddressSelected: (address: string, location: { lat: number; lng: number }, profession?: string) => void;
 }
 
 export function SearchForm({ onAddressSelected }: SearchFormProps) {
@@ -91,24 +91,9 @@ export function SearchForm({ onAddressSelected }: SearchFormProps) {
     fetchProfessions();
   }, []);
 
-  const handleSearch = useCallback(() => {
-    if (!userLocation) return alert('Ubicación no disponible');
-    if (!selectedProfession) return alert('Por favor selecciona una profesión');
-
-    onAddressSelected(userAddress || 'Ubicación actual', userLocation, selectedProfession.id);
-  }, [userLocation, selectedProfession, userAddress, onAddressSelected]);
-
-  const handleProfessionSelect = useCallback(
-    (profession: Profession) => {
-      setSelectedProfession(profession);
-      setOpen(false);
-    },
-    [setSelectedProfession]
-  );
-
   useEffect(() => {
-    if (!userLocation || !selectedProfession) return;
-    onAddressSelected(userAddress || 'Ubicación actual', userLocation, selectedProfession.id);
+    if (!userLocation) return;
+    onAddressSelected(userAddress || 'Ubicación actual', userLocation, selectedProfession?.id);
   }, [selectedProfession, radioValue, userLocation, userAddress, onAddressSelected]);
   
 
