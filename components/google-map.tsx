@@ -266,6 +266,19 @@ export function GoogleMap({
     };
   }, []);
 
+
+  const handleContinueAPP = () => {
+    console.log('Continuar desde la APP');
+    window.open('https://chances.com.ar/links/', '_blank');
+    setShowModal(false);
+  };
+
+  const handleContinueWEB = () => {
+    console.log('Continuar desde la WEB');
+    window.open('https://app.chances.com.ar/', '_blank');
+    setShowModal(false);
+  };
+
   return (
     <div className="w-full h-full relative">
       <div ref={mapRef} className="w-full h-full" />
@@ -282,20 +295,17 @@ export function GoogleMap({
         </div>
       )}
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black bg-opacity-5 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-lg p-6 w-80">
-            <h2 className="text-lg font-bold mb-4">¿Continuar desde aquí?</h2>
+            <h2 className="text-lg font-bold mb-4">¿Como deseas continuar?</h2>
             <div className="flex justify-end gap-4">
-              <button className="bg-gray-300 text-black px-4 py-2 rounded" onClick={() => setShowModal(false)}>
-                Cancelar
+              <button className="bg-gray-300 text-black px-4 py-2 rounded" onClick={handleContinueAPP}>
+                Desde la APP
               </button>
               <button
                 className="bg-yellow-400 text-white px-4 py-2 rounded hover:bg-yellow-500"
-                onClick={() => {
-                  console.log('Continuar confirmado');
-                  setShowModal(false);
-                }}>
-                Continuar
+                onClick={handleContinueWEB}>
+                Desde la WEB
               </button>
             </div>
           </div>
