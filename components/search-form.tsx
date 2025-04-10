@@ -188,7 +188,7 @@ export function SearchForm({ onAddressSelected }: SearchFormProps) {
             />
           </div>
 
-          <Button className="w-full" size="lg" onClick={handleSearch}>
+          <Button className="w-full" size="lg" onClick={handleSearch} disabled={!selectedProfession}>
             <Search className="mr-2 h-4 w-4" /> Buscar
           </Button>
         </div>
