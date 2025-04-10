@@ -3,7 +3,10 @@
     z-index: 10;
     position: absolute;
     bottom: 10px;
-    left: 35px;
     max-height: 95px;
-    width: 80% !important;
+    width: 100% !important;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
