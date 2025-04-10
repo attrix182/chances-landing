@@ -9,7 +9,7 @@ declare global {
   }
 }
 
-const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_API_KEY
+const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_API_KEY
 
 export function GoogleMapsLoader() {
   const hasLoaded = useRef(false)
@@ -33,8 +33,7 @@ export function GoogleMapsLoader() {
 
     // Use a simpler approach to load the API
     script.src =
-      "https://maps.googleapis.com/maps/api/js?key=&libraries=places&callback=initMap"
-    script.src = script.src.replace("&key=", `&key=${GOOGLE_MAPS_API_KEY}`)
+    `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places&callback=initMap`
     script.async = true
     script.defer = true
 
