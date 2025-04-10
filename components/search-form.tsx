@@ -24,7 +24,7 @@ export function SearchForm({ onAddressSelected }: SearchFormProps) {
   const [open, setOpen] = useState(false);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [userAddress, setUserAddress] = useState('');
-  const [radioValue, setRadioValue] = useState(0);
+  const [radioValue, setRadioValue] = useState(10);
   useEffect(() => {
     const fallbackLocation = { lat: -34.6038092, lng: -58.3821173 };
 
@@ -98,6 +98,20 @@ export function SearchForm({ onAddressSelected }: SearchFormProps) {
     onAddressSelected(userAddress || 'Ubicación actual', userLocation, selectedProfession.id);
   }, [userLocation, selectedProfession, userAddress, onAddressSelected]);
 
+  const handleProfessionSelect = useCallback(
+    (profession: Profession) => {
+      setSelectedProfession(profession);
+      setOpen(false);
+    },
+    [setSelectedProfession]
+  );
+
+  useEffect(() => {
+    if (!userLocation || !selectedProfession) return;
+    onAddressSelected(userAddress || 'Ubicación actual', userLocation, selectedProfession.id);
+  }, [selectedProfession, radioValue, userLocation, userAddress, onAddressSelected]);
+  
+
   return (
     <Card className="w-full max-w-md mt-4 border-none shadow-none bg-white">
       <CardContent className="p-6">
@@ -162,7 +176,7 @@ export function SearchForm({ onAddressSelected }: SearchFormProps) {
             </label>
             <input
               type="range"
-              min="0"
+              min="1"
               max="50"
               value={radioValue}
               onChange={(e) => setRadioValue(parseInt(e.target.value))}
@@ -188,9 +202,6 @@ export function SearchForm({ onAddressSelected }: SearchFormProps) {
             />
           </div>
 
-          <Button className="w-full" size="lg" onClick={handleSearch} disabled={!selectedProfession}>
-          Buscar profesionales
-          </Button>
         </div>
       </CardContent>
     </Card>
