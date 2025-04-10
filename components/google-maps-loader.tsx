@@ -1,6 +1,5 @@
 "use client"
 
-import { keys } from "@/keys/keys"
 import { useEffect, useRef } from "react"
 
 declare global {
@@ -10,7 +9,7 @@ declare global {
   }
 }
 
-const GOOGLE_MAPS_API_KEY = keys.google
+const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_API_KEY
 
 export function GoogleMapsLoader() {
   const hasLoaded = useRef(false)
