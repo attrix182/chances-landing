@@ -54,7 +54,6 @@ export function HeroSection() {
   // Memoize the callback to prevent recreating on every render
   const handleAddressSelected = useCallback(
     (address: string, location: { lat: number; lng: number }, profession: string) => {
-      console.log('Address selected:', address);
       if (location.lat !== mapCenter.lat && location.lng !== mapCenter.lng) {setMapCenter(location)};
       setShowMarker(true); // Show marker only after an address is selected
       if (profession) {
@@ -90,6 +89,7 @@ export function HeroSection() {
             center={mapCenter}
             showMarker={true}
             professionals={professionals}
+            profession={selectedProfession}
             showCard={showCard}
           />
         </div>

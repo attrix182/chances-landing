@@ -13,9 +13,17 @@ interface GoogleMapProps {
   showMarker?: boolean;
   professionals?: any[];
   showCard?: boolean;
+  profession: string;
 }
 
-export function GoogleMap({ center: centerProp, zoom = 14, showMarker = false, professionals = [], showCard = false }: GoogleMapProps) {
+export function GoogleMap({
+  center: centerProp,
+  zoom = 14,
+  showMarker = false,
+  professionals = [],
+  showCard = false,
+  profession = ''
+}: GoogleMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<google.maps.Map | null>(null);
   const userMarkerRef = useRef<google.maps.Marker | null>(null);
@@ -28,6 +36,7 @@ export function GoogleMap({ center: centerProp, zoom = 14, showMarker = false, p
   const [isGoogleLoaded, setIsGoogleLoaded] = useState(false);
   const [showCardProp, setShowCardProp] = useState(false);
   const [professional, setProfessional] = useState<any>(null);
+  const [selectedProfession, setSelectedProfession] = useState('');
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showModal, setShowModal] = useState(false);
 
@@ -38,7 +47,7 @@ export function GoogleMap({ center: centerProp, zoom = 14, showMarker = false, p
           (position) => {
             setCenter({
               lat: position.coords.latitude,
-              lng: position.coords.longitude,
+              lng: position.coords.longitude
             });
           },
           (error) => console.error('Error getting location:', error)
@@ -51,12 +60,14 @@ export function GoogleMap({ center: centerProp, zoom = 14, showMarker = false, p
   }, [centerProp, showCard]);
 
   useEffect(() => {
-    if (center && professionals.length > 0 && showCard) {
+    console.log('Professionals:', professionals);
+    if (center && professionals.length > 0 && showCard && profession) {
       const { prof, index } = selectRandomProfessional();
       setProfessional(prof);
       setSelectedIndex(index);
+      setSelectedProfession(profession);
     }
-  }, [center, professionals, showCard]);
+  }, [center, professionals, showCard, profession]);
 
   const getInitials = (prof: any) => {
     const { firstName, lastName } = prof;
@@ -108,7 +119,7 @@ export function GoogleMap({ center: centerProp, zoom = 14, showMarker = false, p
           text: getInitials(prof),
           color: isSelected ? '#facc15' : 'white',
           fontSize: '14px',
-          fontWeight: '800',
+          fontWeight: '800'
         },
         icon: {
           path: GM_ICON_PATH,
@@ -116,8 +127,8 @@ export function GoogleMap({ center: centerProp, zoom = 14, showMarker = false, p
           fillOpacity: 1,
           scale: 0.8,
           strokeWeight: 0,
-          labelOrigin: new window.google.maps.Point(25, 25),
-        },
+          labelOrigin: new window.google.maps.Point(25, 25)
+        }
       });
 
       if (isSelected) {
@@ -133,7 +144,7 @@ export function GoogleMap({ center: centerProp, zoom = 14, showMarker = false, p
             ${prof.city}, ${prof.province}<br/>
             ${prof.country}
           </div>
-        `,
+        `
       });
 
       marker.addListener('click', () => infoWindow.open({ anchor: marker, map: mapInstanceRef.current! }));
@@ -155,17 +166,16 @@ export function GoogleMap({ center: centerProp, zoom = 14, showMarker = false, p
       {
         origin: center,
         destination,
-        travelMode: google.maps.TravelMode.DRIVING,
+        travelMode: google.maps.TravelMode.DRIVING
       },
       (result, status) => {
         if (status === 'OK' && result) {
-
           directionsRendererRef.current?.setOptions({
             polylineOptions: {
               strokeColor: 'black',
-              strokeOpacity: 0.8 ,
-              strokeWeight: 8,
-            },
+              strokeOpacity: 0.8,
+              strokeWeight: 8
+            }
           });
           directionsRendererRef.current?.setDirections(result);
         } else {
@@ -186,7 +196,7 @@ export function GoogleMap({ center: centerProp, zoom = 14, showMarker = false, p
       zoomControl: true,
       mapTypeControl: false,
       streetViewControl: false,
-      fullscreenControl: true,
+      fullscreenControl: true
     });
     mapInstanceRef.current = map;
     isInitialized.current = true;
@@ -204,8 +214,8 @@ export function GoogleMap({ center: centerProp, zoom = 14, showMarker = false, p
         icon: {
           url: '/map_marker.png',
           scaledSize: new window.google.maps.Size(50, 50),
-          origin: new window.google.maps.Point(0, 0),
-        },
+          origin: new window.google.maps.Point(0, 0)
+        }
       });
     } else {
       userMarkerRef.current.setPosition(center);
@@ -268,11 +278,7 @@ export function GoogleMap({ center: centerProp, zoom = 14, showMarker = false, p
 
       {showCardProp && professional && (
         <div className={styles.card}>
-          <ProfessionalCard
-            professional={professional}
-            isSelected={true}
-            onClick={() =>  setShowModal(true)}
-          />
+          <ProfessionalCard professional={professional} isSelected={true} onClick={() => setShowModal(true)} />
         </div>
       )}
       {showModal && (
@@ -280,10 +286,7 @@ export function GoogleMap({ center: centerProp, zoom = 14, showMarker = false, p
           <div className="bg-white rounded-lg shadow-lg p-6 w-80">
             <h2 className="text-lg font-bold mb-4">¿Continuar desde aquí?</h2>
             <div className="flex justify-end gap-4">
-              <button
-                className="bg-gray-300 text-black px-4 py-2 rounded"
-                onClick={() => setShowModal(false)}
-              >
+              <button className="bg-gray-300 text-black px-4 py-2 rounded" onClick={() => setShowModal(false)}>
                 Cancelar
               </button>
               <button
@@ -291,8 +294,7 @@ export function GoogleMap({ center: centerProp, zoom = 14, showMarker = false, p
                 onClick={() => {
                   console.log('Continuar confirmado');
                   setShowModal(false);
-                }}
-              >
+                }}>
                 Continuar
               </button>
             </div>
@@ -300,7 +302,5 @@ export function GoogleMap({ center: centerProp, zoom = 14, showMarker = false, p
         </div>
       )}
     </div>
-
-    
   );
 }
