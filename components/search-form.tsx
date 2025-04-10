@@ -99,7 +99,7 @@ export function SearchForm({ onAddressSelected }: SearchFormProps) {
   }, [userLocation, selectedProfession, userAddress, onAddressSelected]);
 
   return (
-    <Card className="w-full max-w-md mt-4">
+    <Card className="w-full max-w-md mt-4 border-none shadow-none bg-white">
       <CardContent className="p-6">
         <div className="space-y-4">
           {/*  <div className="flex items-center gap-2 text-sm text-muted-foreground">

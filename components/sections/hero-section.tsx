@@ -67,31 +67,36 @@ export function HeroSection() {
 
   return (
     <section className="py-12 md:py-24 lg:py-12 xl:py-12">
-      <div className="container md:px-6">
-        <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
-          <div style={{ height: '450px' }} className="flex flex-col justify-center">
-            <div className="space-y-1">
-              <h1 className="text-2xl font-bold tracking-tighter sm:text-2xl xl:text-4xl/none">
-              Si tenés un oficio,
-              tenés una oportunidad
-              </h1>
-              <p className="max-w-[600px] text-muted-foreground md:text-xl">
+    <div className="container md:px-6 max-w-full">
+      <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
+        {/* Texto + Formulario */}
+        <div className="flex flex-col items-center lg:items-start text-center lg:text-left justify-center h-full space-y-4">
+          <div className="space-y-1">
+            <h1 className="text-2xl font-bold tracking-tighter sm:text-2xl xl:text-4xl/none">
+              Si tenés un oficio, tenés una oportunidad
+            </h1>
+            <p className="max-w-[600px] text-muted-foreground md:text-xl">
               Encuentra un profesional con el oficio que necesitas.
-              </p>
-            </div>
-            <SearchForm onAddressSelected={handleAddressSelected} />
- 
+            </p>
           </div>
-          <div className="mx-auto flex w-full h-[400px] md:h-full items-center justify-center lg:max-w-none rounded-xl overflow-hidden border shadow-xl">
-            <GoogleMap
-              center={mapCenter} //
-              showMarker={true}
-              professionals={professionals}
-              showCard={showCard}
-            />
+          <div className="w-full max-w-md">
+            <SearchForm onAddressSelected={handleAddressSelected} />
           </div>
         </div>
+  
+        {/* Mapa */}
+        <div className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[550px] xl:h-[600px] rounded-xl overflow-hidden border shadow-xl">
+          <GoogleMap
+            center={mapCenter}
+            showMarker={true}
+            professionals={professionals}
+            showCard={showCard}
+          />
+        </div>
       </div>
-    </section>
+    </div>
+  </section>
+  
+  
   );
 }
