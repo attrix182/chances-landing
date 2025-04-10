@@ -32,6 +32,7 @@ jspm_packages
 
 #keys
 keys
+.env
 
 # Optional npm cache directory
 .npm
