@@ -29,6 +29,7 @@ export function GoogleMap({ center: centerProp, zoom = 14, showMarker = false, p
   const [showCardProp, setShowCardProp] = useState(false);
   const [professional, setProfessional] = useState<any>(null);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (!centerProp) {
@@ -270,10 +271,36 @@ export function GoogleMap({ center: centerProp, zoom = 14, showMarker = false, p
           <ProfessionalCard
             professional={professional}
             isSelected={true}
-            onClick={() => console.log('Clicked')}
+            onClick={() =>  setShowModal(true)}
           />
         </div>
       )}
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-80">
+            <h2 className="text-lg font-bold mb-4">¿Continuar desde aquí?</h2>
+            <div className="flex justify-end gap-4">
+              <button
+                className="bg-gray-300 text-black px-4 py-2 rounded"
+                onClick={() => setShowModal(false)}
+              >
+                Cancelar
+              </button>
+              <button
+                className="bg-yellow-400 text-white px-4 py-2 rounded hover:bg-yellow-500"
+                onClick={() => {
+                  console.log('Continuar confirmado');
+                  setShowModal(false);
+                }}
+              >
+                Continuar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
+
+    
   );
 }
