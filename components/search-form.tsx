@@ -44,7 +44,7 @@ export function SearchForm({ onAddressSelected }: SearchFormProps) {
 
         const geocoder = new window.google.maps.Geocoder();
 
-        geocoder.geocode({ location }, (results, status) => {
+        geocoder.geocode({ location }, (results:any, status:any) => {
           const address = status === 'OK' && results && results[0] ? results[0].formatted_address : 'Ubicación actual';
 
           setUserAddress(address);

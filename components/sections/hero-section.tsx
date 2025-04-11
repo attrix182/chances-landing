@@ -5,7 +5,7 @@ import { Star } from 'lucide-react';
 import { SearchForm } from '@/components/search-form';
 import { GoogleMap } from '@/components/google-map';
 
-const professionals = [
+const professionals_mock = [
   {
     firstName: 'Ezequiel',
     lastName: 'Robles',
@@ -49,25 +49,31 @@ export function HeroSection() {
   const [mapCenter, setMapCenter] = useState({ lat: -34.603722, lng: -58.381592 }); // Default to Buenos Aires
   const [showMarker, setShowMarker] = useState(false);
   const [showCard, setShowCard] = useState(false);
+   const [professionals, setProfessionals] = useState(professionals_mock);
   const [selectedProfession, setSelectedProfession] = useState('');
 
   // Memoize the callback to prevent recreating on every render
   const handleAddressSelected = useCallback(
-    (address: string, location: { lat: number; lng: number }, profession: string) => {
+    (address: string, location: { lat: number; lng: number }, profession?: string) => {
       if (location.lat !== mapCenter.lat && location.lng !== mapCenter.lng) {
         setMapCenter(location);
       }
       setShowMarker(true); // Show marker only after an address is selected
       setShowCard(true);
-      setSelectedProfession(profession);
+      setProfessionals(professionals_mock);
+      setSelectedProfession(profession || '');
+
+      if(!profession){
+        setProfessionals([]);
+      }
     },
     []
   );
 
   return (
     <section className="py-12 md:py-24 lg:py-12 xl:py-12">
-      <div className="container md:px-6 max-w-full">
-        <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 items-center">
+      <div className="container md:px-6 max-w-full" >
+        <div className="grid gap-2 lg:grid-cols-2 lg:gap-12 items-center">
           {/* Texto + Formulario */}
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left justify-center h-full space-y-4">
             <div className="space-y-1">
@@ -88,7 +94,7 @@ export function HeroSection() {
             <GoogleMap
               center={mapCenter}
               showMarker={true}
-              professionals={professionals}
+              professionalsProp={professionals}
               profession={selectedProfession}
               showCard={showCard}
             />

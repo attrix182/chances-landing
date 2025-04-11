@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import styles from './google-map.module.css';
 import { ProfessionalCard } from './professional-card';
 import { GM_STYLES } from './map.styles';
@@ -12,7 +12,7 @@ interface GoogleMapProps {
   center?: { lat: number; lng: number };
   zoom?: number;
   showMarker?: boolean;
-  professionals?: any[];
+  professionalsProp?: any[];
   showCard?: boolean;
   profession: string;
 }
@@ -21,7 +21,7 @@ export function GoogleMap({
   center: centerProp,
   zoom = 14,
   showMarker = false,
-  professionals = [],
+  professionalsProp = [],
   showCard = false,
   profession = ''
 }: GoogleMapProps) {
@@ -38,8 +38,16 @@ export function GoogleMap({
   const [showCardProp, setShowCardProp] = useState(false);
   const [professional, setProfessional] = useState<any>(null);
   const [selectedProfession, setSelectedProfession] = useState('');
+  const [professionals, setProfessionals] = useState<any[]>(professionalsProp);
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showModal, setShowModal] = useState(false);
+  const [coords, setCoords] = useState<{ lat: number; lng: number }[]>([]);
+  const newMarkers: google.maps.Marker[] = [];
+
+  const clearExtraMarkers = () => {
+    extraMarkersRef.current.forEach((m) => m.setMap(null));
+    extraMarkersRef.current = [];
+  };
 
   useEffect(() => {
     if (!centerProp) {
@@ -61,21 +69,35 @@ export function GoogleMap({
   }, [centerProp, showCard]);
 
   useEffect(() => {
-    if(!profession){
-      console.log('No profession provided');
+    if (!profession) {
+      console.log('Marcadores extra:', extraMarkersRef.current);
+      clearExtraMarkers();
+
+      directionsRendererRef.current?.setMap(null);
+      directionsRendererRef.current = null;
       setProfessional(null);
       setSelectedIndex(null);
       setSelectedProfession('');
       setShowCardProp(false);
+      setProfessionals([]);
+      setProfessionals(professionalsProp);
+      console.log(professionalsProp);
+
       return;
     }
-    if (center && professionals.length > 0 && showCard && profession) {
+
+    if (center && professionalsProp.length > 0 && showCard && profession) {
       const { prof, index } = selectRandomProfessional();
+      const generatedCoords = generateNearbyCoords(center, professionalsProp.length);
+      setCoords(generatedCoords);
       setProfessional(prof);
       setSelectedIndex(index);
+      setShowCardProp(true);
       setSelectedProfession(profession);
+      setProfessionals([]);
+      setProfessionals(professionalsProp);
     }
-  }, [center, professionals, showCard, profession]);
+  }, [center, professionalsProp, showCard, profession]);
 
   const getInitials = (prof: any) => {
     const { firstName, lastName } = prof;
@@ -104,12 +126,12 @@ export function GoogleMap({
     return { prof: professionals[index], index };
   };
 
-  const addProfessionalMarkers = async () => {
+  const addProfessionalMarkers = useCallback(async () => {
     if (!mapInstanceRef.current || !center) return;
+    extraMarkersRef.current.forEach((m) => m.setMap(null));
+    extraMarkersRef.current = [];
 
     const { Marker } = await window.google.maps.importLibrary('marker');
-
-    const coords = generateNearbyCoords(center, professionals.length || 5);
 
     extraMarkersRef.current.forEach((m) => m.setMap(null));
     extraMarkersRef.current = [];
@@ -137,6 +159,7 @@ export function GoogleMap({
           labelOrigin: new window.google.maps.Point(25, 25)
         }
       });
+      newMarkers.push(marker);
 
       if (isSelected) {
         selectedMarkerRef.current = marker;
@@ -144,11 +167,13 @@ export function GoogleMap({
       }
 
       marker.addListener('click', () => {
-        console.log('Marker clicked:', prof);
+        /*   setProfessional(prof);
+        setSelectedIndex(index);
+        setShowCardProp(true); */
       });
-   
     });
-  };
+    extraMarkersRef.current = newMarkers;
+  }, [mapInstanceRef.current, center, professionals, selectedIndex]);
 
   const drawRouteToProfessional = async (destination: { lat: number; lng: number }) => {
     if (!window.google?.maps || !center || !mapInstanceRef.current) return;
@@ -197,7 +222,7 @@ export function GoogleMap({
       zoomControl: false,
       clickableIcons: false,
       cameraControl: false,
-      styles: GM_STYLES,
+      styles: GM_STYLES
     });
     mapInstanceRef.current = map;
     isInitialized.current = true;
@@ -253,9 +278,10 @@ export function GoogleMap({
 
     const update = async () => {
       if (showMarker) await createOrUpdateUserMarker();
-      if (professionals.length > 0) await addProfessionalMarkers();
+      if (professionals.length > 0 && coords.length === professionals.length) {
+        await addProfessionalMarkers();
+      }
     };
-
     update();
   }, [center, isGoogleLoaded, showMarker, professionals, selectedIndex]);
 
@@ -266,7 +292,6 @@ export function GoogleMap({
       directionsRendererRef.current?.setMap(null);
     };
   }, []);
-
 
   const handleContinueAPP = () => {
     console.log('Continuar desde la APP');
