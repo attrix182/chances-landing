@@ -42,18 +42,20 @@ export function ProfessionalCard({
       onClick={onClick}
     >
       <div className="relative flex-shrink-0">
-        <div className="w-12 h-12 rounded-full overflow-hidden mb-3">
+        <div className="w-12 h-12 rounded-full overflow-hidden mb-3 ring-1 ring-black">
           <Image
             src={image ? image : "/assets/imgs/avatar.png"}
             alt="Avatar"
-            width={48}
-            height={48}
+            width={62}
+            height={62}
             className="object-cover w-full h-full"
           />
         </div>
-        <div className="absolute -bottom-0 -right-1 bg-black text-white rounded-full px-1 flex items-center text-sm mr-1">
-        <div> ⭐️</div>
-          <span className="text-xs font-semibold text-gray-700 text-white ml-2">
+        <div style={{width: "48px", height: "15px", marginBottom: "0px"}}  className="absolute -bottom-0  bg-black text-white rounded-full text-white px-1 flex items-center justify-start">
+        <div> 
+          <img src="/star.svg" alt="star" className="w-3 h-3"></img>
+        </div>
+          <span className="text-xs  text-gray-700 text-white ml-1">
             {removeTwoDecimals(ranking)} 
           </span>
         </div>

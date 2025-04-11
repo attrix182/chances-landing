@@ -222,7 +222,8 @@ export function GoogleMap({
       zoomControl: false,
       clickableIcons: false,
       cameraControl: false,
-      styles: GM_STYLES
+      styles: GM_STYLES,
+      gestureHandling: 'greedy',
     });
     mapInstanceRef.current = map;
     isInitialized.current = true;
