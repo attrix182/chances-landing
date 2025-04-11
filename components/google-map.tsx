@@ -95,7 +95,6 @@ export function GoogleMap({
       const { prof, index } = selectRandomProfessional();
       setProfessional(prof);
       setSelectedIndex(index);
-
     }
   }, [center, professionalsProp, showCard, profession]);
 
@@ -323,8 +322,15 @@ export function GoogleMap({
       )}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-5 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6 w-80">
-            <h2 className="text-lg font-bold mb-4">¿Como deseas continuar?</h2>
+          <div className="relative bg-white rounded-lg shadow-lg p-6 w-80">
+            {/* Botón para cerrar */}
+            <button
+              className="absolute top-2 right-2 text-gray-500 hover:text-black text-xl"
+              onClick={() => setShowModal(false)}
+              aria-label="Cerrar">
+              &times;
+            </button>
+            <h2 className="text-lg font-bold mb-4 p-3">¿Como deseas continuar?</h2>
             <div className="flex justify-end gap-4">
               <button className="bg-gray-300 text-black px-4 py-2 rounded" onClick={handleContinueAPP}>
                 Desde la APP
