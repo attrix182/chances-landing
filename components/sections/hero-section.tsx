@@ -73,7 +73,7 @@ export function HeroSection() {
   return (
     <section className="py-12 md:py-24 lg:py-12 xl:py-12">
       <div className="container md:px-6 max-w-full" >
-        <div className="grid gap-2 lg:grid-cols-2 lg:gap-12 items-center">
+        <div className="grid gap-2 lg:grid-cols-2 items-center">
           {/* Texto + Formulario */}
           <div className="flex flex-col lg:mb-48 items-center lg:items-start text-center lg:text-left justify-center h-full space-y-4">
             <div className="space-y-1">
@@ -90,7 +90,7 @@ export function HeroSection() {
           </div>
 
           {/* Mapa */}
-          <div className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[550px] xl:h-[600px] rounded-xl overflow-hidden border shadow-xl">
+          <div style={{maxHeight: '480px'}} className="w-full h-[300px] sm:h-[400px] md:h-[500px] lg:h-[550px] xl:h-[600px] rounded-xl overflow-hidden border shadow-xl">
             <GoogleMap
               center={mapCenter}
               showMarker={true}
