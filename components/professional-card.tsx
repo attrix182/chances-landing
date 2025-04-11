@@ -53,7 +53,7 @@ export function ProfessionalCard({
         </div>
         <div style={{width: "48px", height: "15px", marginBottom: "0px"}}  className="absolute -bottom-0  bg-black text-white rounded-full text-white px-1 flex items-center justify-start">
         <div> 
-          <img src="/star.svg" alt="star" className="w-3 h-3"></img>
+          <img src="/Star.svg" alt="star" className="w-3 h-3"></img>
         </div>
           <span className="text-xs  text-gray-700 text-white ml-1">
             {removeTwoDecimals(ranking)} 
