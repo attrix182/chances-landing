@@ -75,9 +75,9 @@ export function HeroSection() {
       <div className="container md:px-6 max-w-full" >
         <div className="grid gap-2 lg:grid-cols-2 lg:gap-12 items-center">
           {/* Texto + Formulario */}
-          <div className="flex flex-col items-center lg:items-start text-center lg:text-left justify-center h-full space-y-4">
+          <div className="flex flex-col lg:mb-48 items-center lg:items-start text-center lg:text-left justify-center h-full space-y-4">
             <div className="space-y-1">
-              <h1 className="text-2xl font-bold tracking-tighter sm:text-2xl xl:text-4xl/none">
+              <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl xl:text-4xl/none">
                 Si tenés un oficio, tenés una oportunidad
               </h1>
               <p className="max-w-[600px] text-muted-foreground md:text-xl">
