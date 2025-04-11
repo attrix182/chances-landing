@@ -97,6 +97,10 @@ export function SearchForm({ onAddressSelected }: SearchFormProps) {
     onAddressSelected(userAddress || 'Ubicación actual', userLocation, selectedProfession?.id);
   }, [selectedProfession, radioValue, userLocation, userAddress, onAddressSelected]);
 
+  const handleButtonClick = () => {
+    window.open('https://chances.com.ar/links', '_blank');
+  };
+
   return (
     <Card className="w-full max-w-md mt-4 border-none shadow-none bg-white">
       <CardContent className="p-6">
@@ -190,8 +194,10 @@ export function SearchForm({ onAddressSelected }: SearchFormProps) {
           <div className="flex items-center justify-between gap-2" >
             <div>
               <Button
-                variant="default"
-                className="bg-[#ffc643] text-black hover:bg-[ffc643] w-full shadow hover:shadow-lg rounded-full">
+                variant="default"    
+                className="bg-[#ffc643] text-black hover:bg-[ffc643] w-full shadow hover:shadow-lg rounded-full"
+                onClick={handleButtonClick}
+                >
                   <Wrench className="mr-2 h-4 w-4" />
                 Empezar como profesional
               </Button>
