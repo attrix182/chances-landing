@@ -72,7 +72,6 @@ export function GoogleMap({
     if (!profession) {
       console.log('Marcadores extra:', extraMarkersRef.current);
       clearExtraMarkers();
-
       directionsRendererRef.current?.setMap(null);
       directionsRendererRef.current = null;
       setProfessional(null);
@@ -87,15 +86,16 @@ export function GoogleMap({
     }
 
     if (center && professionalsProp.length > 0 && showCard && profession) {
-      const { prof, index } = selectRandomProfessional();
-      const generatedCoords = generateNearbyCoords(center, professionalsProp.length);
-      setCoords(generatedCoords);
-      setProfessional(prof);
-      setSelectedIndex(index);
-      setShowCardProp(true);
-      setSelectedProfession(profession);
       setProfessionals([]);
       setProfessionals(professionalsProp);
+      const generatedCoords = generateNearbyCoords(center, professionalsProp.length);
+      setCoords(generatedCoords);
+      setShowCardProp(true);
+      setSelectedProfession(profession);
+      const { prof, index } = selectRandomProfessional();
+      setProfessional(prof);
+      setSelectedIndex(index);
+
     }
   }, [center, professionalsProp, showCard, profession]);
 
@@ -122,8 +122,9 @@ export function GoogleMap({
   };
 
   const selectRandomProfessional = () => {
-    const index = Math.floor(Math.random() * professionals.length);
-    return { prof: professionals[index], index };
+    console.log(professionalsProp);
+    const index = Math.floor(Math.random() * professionalsProp.length);
+    return { prof: professionalsProp[index], index };
   };
 
   const addProfessionalMarkers = useCallback(async () => {
