@@ -4,6 +4,8 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import styles from './google-map.module.css';
 import { ProfessionalCard } from './professional-card';
 import { GM_STYLES } from './map.styles';
+import { Button } from './ui/button';
+import { Monitor, Network, NetworkIcon, PcCase, Phone, Smartphone, WholeWord } from 'lucide-react';
 
 export const GM_ICON_PATH =
   'M 24 0 C 37.254833995939045 0 48 10.74516600406095 48 23.999999999999993 C 48 37.25483399593904 37.25483399593905 47.99999999999999 24.000000000000007 48 C 10.745166004060964 48.00000000000001 3.552713678800501e-15 37.25483399593905 0 24.000000000000007 C 0 10.745166004060957 10.745166004060957 0 24 0 Z';
@@ -323,7 +325,7 @@ export function GoogleMap({
       )}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-0 flex items-center justify-center z-50 shadow-lg">
-          <div className="relative bg-white rounded-lg shadow-xl p-6 w-80">
+          <div className="relative bg-white rounded-xl shadow-xl p-6 w-100">
             {/* Botón para cerrar */}
             <button
               className="absolute top-2 right-2 text-gray-500 hover:text-black text-xl"
@@ -331,16 +333,24 @@ export function GoogleMap({
               aria-label="Cerrar">
               &times;
             </button>
+            <div className="flex flex-col items-center justify-center">
             <h2 className="text-lg font-bold mb-4 p-3">¿Como deseas continuar?</h2>
+            </div>
             <div className="flex justify-end gap-4">
-              <button className="bg-gray-300 text-black px-4 py-2 rounded" onClick={handleContinueAPP}>
+
+              <Button    variant="default"    
+                className="text-black bg-[#ffc643] hover:bg-[#FFC611] hover:shadow-lg shadow rounded-full"
+                 onClick={handleContinueAPP}>
+                  <Smartphone></Smartphone>
                 Desde la APP
-              </button>
-              <button
-                className="bg-yellow-400 text-white px-4 py-2 rounded hover:bg-yellow-500"
-                onClick={handleContinueWEB}>
-                Desde la WEB
-              </button>
+              </Button>
+
+              <Button    variant="default"    
+                className="shadow hover:shadow-lg rounded-full"
+                 onClick={handleContinueWEB}>
+                  <Monitor></Monitor>
+                  Desde la WEB
+              </Button>
             </div>
           </div>
         </div>
