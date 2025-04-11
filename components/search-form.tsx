@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
+import { Link, Wrench } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { MapPin, Search, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -44,7 +45,7 @@ export function SearchForm({ onAddressSelected }: SearchFormProps) {
 
         const geocoder = new window.google.maps.Geocoder();
 
-        geocoder.geocode({ location }, (results:any, status:any) => {
+        geocoder.geocode({ location }, (results: any, status: any) => {
           const address = status === 'OK' && results && results[0] ? results[0].formatted_address : 'Ubicación actual';
 
           setUserAddress(address);
@@ -95,7 +96,6 @@ export function SearchForm({ onAddressSelected }: SearchFormProps) {
     if (!userLocation) return;
     onAddressSelected(userAddress || 'Ubicación actual', userLocation, selectedProfession?.id);
   }, [selectedProfession, radioValue, userLocation, userAddress, onAddressSelected]);
-  
 
   return (
     <Card className="w-full max-w-md mt-4 border-none shadow-none bg-white">
@@ -187,6 +187,17 @@ export function SearchForm({ onAddressSelected }: SearchFormProps) {
             />
           </div>
 
+          <div className="flex items-center justify-between gap-2" >
+            <div>
+              <Button
+                variant="default"
+                className="bg-[#ffc643] text-black hover:bg-[ffc643] w-full shadow hover:shadow-lg rounded-full">
+                  <Wrench className="mr-2 h-4 w-4" />
+                Empezar como profesional
+              </Button>
+            </div>
+
+          </div>
         </div>
       </CardContent>
     </Card>
