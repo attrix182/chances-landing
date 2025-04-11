@@ -5,7 +5,7 @@ import styles from './google-map.module.css';
 import { ProfessionalCard } from './professional-card';
 import { GM_STYLES } from './map.styles';
 import { Button } from './ui/button';
-import { Monitor, Network, NetworkIcon, PcCase, Phone, Smartphone, WholeWord } from 'lucide-react';
+import { LocateIcon, Monitor, Network, NetworkIcon, PcCase, Phone, Smartphone, WholeWord } from 'lucide-react';
 
 export const GM_ICON_PATH =
   'M 24 0 C 37.254833995939045 0 48 10.74516600406095 48 23.999999999999993 C 48 37.25483399593904 37.25483399593905 47.99999999999999 24.000000000000007 48 C 10.745166004060964 48.00000000000001 3.552713678800501e-15 37.25483399593905 0 24.000000000000007 C 0 10.745166004060957 10.745166004060957 0 24 0 Z';
@@ -69,6 +69,20 @@ export function GoogleMap({
     }
     setShowCardProp(showCard);
   }, [centerProp, showCard]);
+
+  const setActualPosition = () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setCenter({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          });
+        },
+        (error) => console.error('Error getting location:', error)
+      );
+    }
+  };
 
   useEffect(() => {
     if (!profession) {
@@ -323,6 +337,13 @@ export function GoogleMap({
           <ProfessionalCard professional={professional} isSelected={true} onClick={() => setShowModal(true)} />
         </div>
       )}
+
+      <div className="absolute top-4 right-4">
+        <Button variant="default" className="text-black bg-white hover:bg-white hover:shadow-lg shadow rounded-full" onClick={setActualPosition}>
+          <LocateIcon></LocateIcon>
+        </Button>
+      </div>
+
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-0 flex items-center justify-center z-50 shadow-lg">
           <div className="relative bg-white rounded-xl shadow-xl p-6 w-100">
