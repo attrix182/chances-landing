@@ -75,14 +75,12 @@ export function HeroSection() {
       <div className="container md:px-6 max-w-full" >
         <div className="grid gap-2 lg:grid-cols-2 items-start lg:ml-24 xl:ml-24">
           {/* Texto + Formulario */}
-          <div className="flex flex-col lg:mb-24 items-start lg:items-start  lg:text-left justify-center h-full space-y-4">
+          <div className="flex flex-col lg:mb-24 items-start lg:items-start  lg:text-left justify-center h-full">
             <div className="space-y-1 lg:ml-6 xl:ml-6">
               <h1 className="text-2xl font-bold tracking-tighter sm:text-3xl xl:text-4xl/none">
-                Si tenés un oficio, <br></br> tenés una oportunidad
+              Pedí un profesional cerca tuyo, <br></br> en tiempo real.
               </h1>
-              <p className="max-w-[600px] text-muted-foreground md:text-xl">
-                Encontra un profesional con el oficio que necesitas.
-              </p>
+      
             </div>
             <div className="w-full max-w-md ">
               <SearchForm onAddressSelected={handleAddressSelected} />

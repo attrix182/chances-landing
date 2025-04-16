@@ -190,19 +190,21 @@ export function SearchForm({ onAddressSelected }: SearchFormProps) {
               }}
             />
           </div>
-
-          <div className="flex items-center justify-between gap-2" >
+          <hr />
+          <div className="flex items-center justify-between gap-2">
             <div>
+              <div   onClick={handleButtonClick} className=" pl-2 text-sm text-muted-foreground cursor-pointer hover:underline">
+                Si tenés un oficio, tenés una oportunidad
+              </div>
               <Button
-                variant="default"    
-                className="bg-[#ffc643] text-black hover:bg-[ffc643] w-full shadow hover:shadow-lg rounded-full"
-                onClick={handleButtonClick}
-                >
-                  <Wrench className="mr-2 h-4 w-4" />
+                variant="default"
+                className="bg-[#ffc643] text-black hover:bg-[ffc643] w-full shadow hover:shadow-lg rounded-full mt-2 "
+                onClick={handleButtonClick}>
+                <Wrench className="mr-2 h-4 w-4" />
                 Empezar como profesional
               </Button>
-            </div>
 
+            </div>
           </div>
         </div>
       </CardContent>
